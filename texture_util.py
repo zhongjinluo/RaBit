@@ -20,7 +20,7 @@ import dnnlib
 import numpy as np
 import PIL.Image
 import torch
-
+import cv2
 import legacy
 
 #----------------------------------------------------------------------------
@@ -77,7 +77,8 @@ def generate_texture(
     truncation_psi=1,
     noise_mode="const",
     translate=(0,0),
-    rotate=0
+    rotate=0,
+    is_dilate=False
 ):
     print('Loading networks from "%s"...' % network_pkl)
     device = torch.device('cuda')
@@ -97,7 +98,13 @@ def generate_texture(
         G.synthesis.input.transform.copy_(torch.from_numpy(m))
     img = G(z, label, truncation_psi=truncation_psi, noise_mode=noise_mode)
     img = (img.permute(0, 2, 3, 1) * 127.5 + 128).clamp(0, 255).to(torch.uint8)
-    PIL.Image.fromarray(img[0].cpu().numpy(), 'RGB').save(filename)
+    img = img[0].cpu().numpy()
+    
+    if is_dilate:
+        kernel = np.ones((5, 5), np.uint8)
+        img = cv2.dilate(img, kernel, iterations=1)
+
+    PIL.Image.fromarray(img, 'RGB').save(filename)
 
 if __name__ == "__main__":
     generate_texture("random_texture.png")

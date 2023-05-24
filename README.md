@@ -27,7 +27,7 @@ Assisting people in efficiently producing visually plausible 3D characters has a
 
 ## Install
 
-- To use *RaBit*'s shape model, please run the following commands:
+- To use *RaBit*'s shape model, please run the following commands,
 
   ```
   conda create --name RaBit -y python=3.8

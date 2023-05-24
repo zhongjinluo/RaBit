@@ -3,6 +3,7 @@ import meshio
 import os
 import openmesh as om
 import texture_util
+import shutil
 
 class RaBitModel():
     """
@@ -265,8 +266,7 @@ class RaBitModel():
         J = np.concatenate(J)
         return J
 
-
-    def save_to_obj(self, path):
+    def save_to_obj_with_texture(self, path):
         """
         Save the RaBit model into .obj file.
 
@@ -275,26 +275,81 @@ class RaBitModel():
         path: Path to save.
 
         """
-        
-        mesh = om.PolyMesh(points=self.verts, face_vertex_indices=self.quads.reshape(-1,4))
-        om.write_mesh(path, mesh)
-        texture_util.generate_texture("random_texture.png")
+        shutil.copyfile("rabit_data/UV/m_t.mtl", path.replace(".obj", ".mtl"))
+        vertex_texture_lines = []
+        face_lines = []
+        template_vertex_count = 0
+        usemtl = ""
+        mtllib = ""
+        with open("./rabit_data/UV/tri.obj") as file_in_template:
+            for line in file_in_template.readlines():
+                line = line.replace('\n', '')
+                if line.startswith('#'): 
+                    continue
+                values = line.split()
+                if len(values) == 0:
+                    continue
+                elif values[0] == "usemtl":
+                    # file_out.write(line + "\n")
+                    usemtl = line + "\n"
+                elif values[0] == "mtllib":
+                    # file_out.write(line + "\n")
+                    mtllib = line + "\n"
+                elif values[0] == "v":
+                    template_vertex_count += 1
+                elif values[0] == "vt":
+                    # file_out.write(line + "\n")
+                    vertex_texture_lines.append(line + "\n")
+                elif values[0] == "vn":
+                    # file_out.write(line + "\n")
+                    # vertex_normal_lines.append(line + "\n")
+                    pass
+                elif values[0] == "f" or values[0] == "g":
+                    # file_out.write(line + "\n")
+                    face_lines.append(line + "\n")
+                else:
+                    pass
+        vertex_lines = []
+        for v in self.verts:
+            vertex_lines.append("v %s %s %s\n" % (str(v[0]), str(v[1]), str(v[2])))
+        with open(path, 'w') as file_out:
+            file_out.write(mtllib)
+            file_out.write(usemtl)
+            for v in vertex_lines:
+                file_out.write(v)
+            for vt in vertex_texture_lines:
+                file_out.write(vt)  # template
+            for f in face_lines:
+                items = f.replace("\n", "").split(" ")
+                new_line = ""
+                for item in items:
+                    if item == "f":
+                        new_line += item
+                    elif 'g' in item or "G" in item:
+                        continue
+                    else:
+                        splits = item.split("/")
+                        new_line += " " + splits[0] + "/" + splits[1]
+                new_line += "\n"
+                file_out.write(new_line)
+        texture_util.generate_texture("output/m_t.png")
 
 
 if __name__ == '__main__':
     os.makedirs("output/", exist_ok=True)
-    save_path = "output/m.obj"
-    np.random.seed(42)
+    save_path = "output/m_t.obj"
+    np.random.seed(2)
 
     rabit = RaBitModel()
 
     # pose_shape: [23, 3]
     # beta_shape: [500]
-    theta = np.random.rand(*(23, 3))*0.1
-    beta = np.random.rand(*(500,))*10-5
-    beta[10:]=0
+    # theta = np.random.rand(*(23, 3))*0.1
+    theta = np.zeros((23, 3))
+    beta = np.random.rand(*(500,)) * 10 - 5
+    beta[10:] = 0
     trans = np.zeros(rabit.trans_shape)
 
     rabit.set_params(beta=beta, pose=theta, trans=trans)
-    rabit.save_to_obj(save_path)
+    rabit.save_to_obj_with_texture(save_path)
     print("Mesh:", save_path)

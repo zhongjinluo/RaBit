@@ -283,15 +283,16 @@ class RaBitModel():
 if __name__ == '__main__':
     os.makedirs("output/", exist_ok=True)
     save_path = "output/m.obj"
-    np.random.seed(42)
+    np.random.seed(2)
 
     rabit = RaBitModel()
 
     # pose_shape: [23, 3]
     # beta_shape: [500]
-    theta = np.random.rand(*(23, 3))*0.1
-    beta = np.random.rand(*(500,))*10-5
-    beta[10:]=0
+    # theta = np.random.rand(*(23, 3))*0.1
+    theta = np.zeros((23, 3))
+    beta = np.random.rand(*(500,)) * 10 - 5
+    beta[10:] = 0
     trans = np.zeros(rabit.trans_shape)
 
     rabit.set_params(beta=beta, pose=theta, trans=trans)
