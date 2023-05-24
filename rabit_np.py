@@ -1,33 +1,33 @@
 import numpy as np
 import meshio
+import os
 import openmesh as om
 
-#NOTE: RaBit infer
 class RaBitModel():
     """
     RaBit model.
     This model was built by numpy, exclude eyes rebuild.
 
     """
-    def __init__(self, datar_file):
+    def __init__(self):
 
         dataroot = "./rabit_data/"
-        self.mean_file = [dataroot + datar_file + "mean.obj"] 
-        self.pca_weight = np.load(dataroot + datar_file + "pcamat.npy" , allow_pickle=True) 
-        self.clusterdic = np.load(dataroot + 'rabit/clusterdic.npy' , allow_pickle=True).item()
+        self.mean_file = [dataroot + "shape/mean.obj"] 
+        self.pca_weight = np.load(dataroot + "shape/pcamat.npy" , allow_pickle=True) 
+        self.clusterdic = np.load(dataroot + "shape/clusterdic.npy" , allow_pickle=True).item()
 
         self.index2cluster = {}
         for key in self.clusterdic.keys():
             val = self.clusterdic[key]
             self.index2cluster[val] = key
 
-        self.joint2index = np.load(dataroot + 'rabit/joint2index.npy' , allow_pickle=True).item()
-        joint_order = np.load(dataroot + "rabit/pose_order.npy")
-        self.weightMatrix = np.load(dataroot + 'rabit/weightMatrix.npy' , allow_pickle=True)
+        self.joint2index = np.load(dataroot + "shape/joint2index.npy" , allow_pickle=True).item()
+        joint_order = np.load(dataroot + "shape/pose_order.npy")
+        self.weightMatrix = np.load(dataroot + "shape/weightMatrix.npy" , allow_pickle=True)
 
         #reorder joint
         self.ktree_table = np.ones(24)*-1
-        ktree_table = np.load(dataroot + 'rabit/ktree_table.npy' , allow_pickle=True).item()
+        ktree_table = np.load(dataroot + "shape/ktree_table.npy" , allow_pickle=True).item()
         name2index = {}
         for i in range(1,24):
             self.ktree_table[i]=ktree_table[i][1]
@@ -281,12 +281,12 @@ class RaBitModel():
 
 
 if __name__ == '__main__':
-    rabit = RaBitModel("rabit/")
-    save_path = "./rabit_save.obj"
-
+    os.makedirs("output/", exist_ok=True)
+    save_path = "output/m.obj"
     np.random.seed(42)
 
-    #INFO:
+    rabit = RaBitModel()
+
     # pose_shape: [23, 3]
     # beta_shape: [500]
     theta = np.random.rand(*(23, 3))*0.1
@@ -296,4 +296,4 @@ if __name__ == '__main__':
 
     rabit.set_params(beta=beta, pose=theta, trans=trans)
     rabit.save_to_obj(save_path)
-    print("the model successfully saved as ", save_path)
+    print("Mesh:", save_path)

@@ -73,7 +73,7 @@ def make_transform(translate: Tuple[float,float], angle: float):
 
 def generate_texture(
     filename,
-    network_pkl="./rabit_data/stylegan_back_uv.pkl",
+    network_pkl="./rabit_data/texture/texture.pkl",
     truncation_psi=1,
     noise_mode="const",
     translate=(0,0),
