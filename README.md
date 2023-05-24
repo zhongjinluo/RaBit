@@ -1,82 +1,23 @@
-# RaBit & 3DBicar
+# *RaBit*
 
-![3DBicar](./pics/fig_teaser.png)
-By Zhongjin Luo*, Shengcai Cai*, Jinguo Dong, Ruibo Ming, Liangdong Qiu, [Xiaohang Zhang](https://xiaohangzhan.github.io/) and [Xiaoguang Han](https://gaplab.cuhk.edu.cn/)
+> ***RaBit***: Parametric Modeling of 3D Biped Cartoon Characters with a Topological-consistent Dataset
+>
+> Zhongjin Luo*, Shengcai Cai*, Jinguo Dong, Ruibo Ming, Liangdong Qiu, [Xiaohang Zhang](https://xiaohangzhan.github.io/) and [Xiaoguang Han](https://gaplab.cuhk.edu.cn/)
 
-| [Paper](https://arxiv.org/abs/2303.12564) | [Project](https://gaplab.cuhk.edu.cn/projects/RaBit/) | [Dataset](https://gaplab.cuhk.edu.cn/projects/RaBit/dataset.html) |
+#### | [Paper](https://arxiv.org/abs/2303.12564) | [Project](https://gaplab.cuhk.edu.cn/projects/RaBit/) | [Dataset](https://gaplab.cuhk.edu.cn/projects/RaBit/dataset.html) |
 
 ## Introduction
+Assisting people in efficiently producing visually plausible 3D characters has always been a fundamental research topic in computer vision and computer graphics. Recent learning-based approaches have achieved unprecedented accuracy and efficiency in the area of 3D real human digitization. However, none of the prior works focus on modeling 3D biped cartoon characters, which are also in great demand in gaming and filming. In this paper, we introduce *[3DBiCar](https://gaplab.cuhk.edu.cn/projects/RaBit/dataset.html)*, the first large-scale dataset of 3D biped cartoon characters, and *RaBit*, the corresponding parametric model. Our dataset contains 1,500 topologically consistent high-quality 3D textured models which are manually crafted by professional artists. Built upon the data, *RaBit* is thus designed with a SMPL-like linear blend shape model and a StyleGAN-based neural UV-texture generator, simultaneously expressing the shape, pose, and texture. To demonstrate the practicality of *[3DBiCar](https://gaplab.cuhk.edu.cn/projects/RaBit/dataset.html)* and *RaBit*, various applications are conducted, including single-view reconstruction, sketch-based modeling, and 3D cartoon animation. 
 
-This repository is built for:
+![gallery](./assets/fig_teaser.png)
 
-*RaBit:* Rarametric Modeling of 3D Biped Cartoon Characters with a Topological-consistent Dataset (CVPR2023)[[arXiv](https://arxiv.org/abs/2303.12564)]
+## Citation
 
-If you find our work useful in your research, please consider citing:
 ```
-@article{luo2023rabit,
+@inproceedings{luo2023rabit,
   title={RaBit: Parametric Modeling of 3D Biped Cartoon Characters with a Topological-consistent Dataset},
   author={Luo, Zhongjin and Cai, Shengcai and Dong, Jinguo and Ming, Ruibo and Qiu, Liangdong and Zhan, Xiaohang and Han, Xiaoguang},
-  journal={arXiv preprint arXiv:2303.12564},
+  booktitle={CVPR},
   year={2023}
 }
 ```
-
-## Dataset
-
-![gallery](./pics/fig_dataset_gallery.png)
-
-3DBiCar contains **1,500 topologically consistent**, **textured and skinned** 3D high-quality models with paired 2D images, which <u>covers 15 species and 4 image styles</u>.
-
-you can visit our project page for more information.
-
-## demo
-
-we provide a numpy implementation with a GUI viewer, and a model_with_eyes inference implemented by torch.
-
-### dependence
-
-create virtural environment if you need. and then exe the command below in your terminal
-
-```
-pip3 install -r requirements.txt
-```
-
-#### PCA matrix
-
-need download a <u>**pcamat.npy**</u> under the path of **"./rabit_data/rabit/"** , it's available [here](https://cuhko365-my.sharepoint.com/:f:/g/personal/221019019_link_cuhk_edu_cn/EgYr8ivgBRVNtOftTCi1CuMBW4heNDA9SeNfIa__Z6n4_Q)
-
-and then execute
-
-
-### numpy implementation
-
-```shell
-python rabit_np.py
-```
-will generate a **rabit_save.obj** file in the root of the project
-
-GUI Viewer: thanks SMPL Viewer's owner, 
-Our GUI viewer implemented on base of his work.
-
-```shell
-python3 app.py
-```
-![viewer](./pics/viewer.JPG)
-
-### torch implementation
-
-```shell
-python rabit_torch.py
-```
-**rabit.obj** & **rabit_eyes** will be generate in the root path.
-
-
-## Contact
-
-If you have any questions, please contact Jinzhong luo (tjluozhongjin@gmail.com) or Shengcai Cai (221019019@link.cuhk.edu.cn).
-
-## Credit
-
-Thanks for the github repo owner, these projects are used in our jobs:
-
-* https://github.com/thmoa/smpl_viewer
