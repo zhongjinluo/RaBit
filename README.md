@@ -11,7 +11,7 @@
 - [ ] Datasets
 - [ ] Shape Model
 - [ ] Texture Model
-- [ ] Demo
+- [ ] Usage Guidance / Demo
 
 ## Introduction
 
