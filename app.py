@@ -26,14 +26,14 @@ class MainWindow(QMainWindow):
 
         # rabit object
         datar = "./rabit_data/"
-        datar_file = "rabit/"
-        beta_weight = np.load(datar+datar_file + "pcamat.npy")
-        self.maxmin = np.load(datar+datar_file + "maxmin.npy")
+        datar_file = "shape/"
+        beta_weight = np.load(datar + datar_file + "pcamat.npy")
+        self.maxmin = np.load(datar + datar_file + "maxmin.npy")
         if beta_weight is None:
             self.pca_dim = 10
         else:
             self.pca_dim = beta_weight.shape[0]
-        self.rabit = RaBitModel(datar_file)
+        self.rabit = RaBitModel()
 
         # initialize the sliders
         self.poseSliders = []

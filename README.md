@@ -92,10 +92,10 @@ The 3D full-body parametric model for biped character modeling, which contains a
 - We also provide a GUI viewer that allows intuitive manipulation of the first ten shape axes of *RaBit*:
 
   ```
-  python app.py 
+  python app.py
   ```
-
-![gallery](./assets/viewer.jpg)
+  
+  ![gallery](./assets/viewer.png)
 
 ## Citation
 
