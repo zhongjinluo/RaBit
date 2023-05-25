@@ -39,9 +39,9 @@ Assisting people in efficiently producing visually plausible 3D characters has a
 
 ## **Usage of *RaBit***
 
-The 3D full-body parametric model for biped character modeling, which contains a linear blend (SMPL-like) model for shapes and a neural (StyleGAN-based) generator for UV textures. It simultaneously parameterizes the shape, pose, and texture of 3D biped characters into low-dimensional vectors.
+*RaBit is* a 3D full-body parametric model for biped character modeling, which contains a linear blend (SMPL-like) model for shapes and a neural (StyleGAN-based) generator for UV textures. It simultaneously parameterizes the shape, pose, and texture of 3D biped characters into low-dimensional vectors.
 
-- Downloading required models and extra data from OneDrive. After unzipping the above file, the directory structure of `./rabit_data` is expected as follows,
+- Downloading required models and extra data from [OneDrive](https://cuhko365-my.sharepoint.com/:u:/g/personal/220019015_link_cuhk_edu_cn/EeW1g5MQNYZGiODBK1sBPDYBDDmXRNTXNyhy6cspVOnvyw?e=uPlS2H). After unzipping the above file, the directory structure of `./rabit_data` is expected as follows,
 
   ```
   ├── assets
