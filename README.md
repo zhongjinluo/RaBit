@@ -41,7 +41,7 @@ Assisting people in efficiently producing visually plausible 3D characters has a
 
 The 3D full-body parametric model for biped character modeling, which contains a linear blend (SMPL-like) model for shapes and a neural (StyleGAN-based) generator for UV textures. It simultaneously parameterizes the shape, pose, and texture of 3D biped characters into low-dimensional vectors.
 
-- Downloading required models and extra data from [OneDrive](https://cuhko365-my.sharepoint.com/personal/221019019_link_cuhk_edu_cn/_layouts/15/onedrive.aspx?id=%2Fpersonal%2F221019019%5Flink%5Fcuhk%5Fedu%5Fcn%2FDocuments%2FRabit%5Fweight&ga=1). After unzipping the above file, the directory structure of `./rabit_data` is expected as follows,
+- Downloading required models and extra data from OneDrive. After unzipping the above file, the directory structure of `./rabit_data` is expected as follows,
 
   ```
   ├── assets
