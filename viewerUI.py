@@ -436,7 +436,7 @@ class Ui_RaBitViewer(object):
         self.label_28.setGeometry(QtCore.QRect(960, 400, 78, 21))
         self.label_28.setObjectName("label_28")
 
-        #TODO:
+        # TODO:
         self.label_x = QtWidgets.QLabel(self.centralwidget)
         self.label_x.setGeometry(QtCore.QRect(10, 520, 78, 21))
         self.label_x.setObjectName("label_x")

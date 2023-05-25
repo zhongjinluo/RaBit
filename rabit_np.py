@@ -3,41 +3,43 @@ import meshio
 import os
 import openmesh as om
 
+
 class RaBitModel():
     """
     RaBit model.
     This model was built by numpy, exclude eyes rebuild.
 
     """
+
     def __init__(self):
 
         dataroot = "./rabit_data/"
-        self.mean_file = [dataroot + "shape/mean.obj"] 
-        self.pca_weight = np.load(dataroot + "shape/pcamat.npy" , allow_pickle=True) 
-        self.clusterdic = np.load(dataroot + "shape/clusterdic.npy" , allow_pickle=True).item()
+        self.mean_file = [dataroot + "shape/mean.obj"]
+        self.pca_weight = np.load(dataroot + "shape/pcamat.npy", allow_pickle=True)
+        self.clusterdic = np.load(dataroot + "shape/clusterdic.npy", allow_pickle=True).item()
 
         self.index2cluster = {}
         for key in self.clusterdic.keys():
             val = self.clusterdic[key]
             self.index2cluster[val] = key
 
-        self.joint2index = np.load(dataroot + "shape/joint2index.npy" , allow_pickle=True).item()
+        self.joint2index = np.load(dataroot + "shape/joint2index.npy", allow_pickle=True).item()
         joint_order = np.load(dataroot + "shape/pose_order.npy")
-        self.weightMatrix = np.load(dataroot + "shape/weightMatrix.npy" , allow_pickle=True)
+        self.weightMatrix = np.load(dataroot + "shape/weightMatrix.npy", allow_pickle=True)
 
-        #reorder joint
-        self.ktree_table = np.ones(24)*-1
-        ktree_table = np.load(dataroot + "shape/ktree_table.npy" , allow_pickle=True).item()
+        # reorder joint
+        self.ktree_table = np.ones(24) * -1
+        ktree_table = np.load(dataroot + "shape/ktree_table.npy", allow_pickle=True).item()
         name2index = {}
-        for i in range(1,24):
-            self.ktree_table[i]=ktree_table[i][1]
-            name2index[ktree_table[i][0]]=i
+        for i in range(1, 24):
+            self.ktree_table[i] = ktree_table[i][1]
+            name2index[ktree_table[i][0]] = i
         reorder_index = np.zeros(24)
-        for i,jointname in enumerate(joint_order):
+        for i, jointname in enumerate(joint_order):
             if jointname in name2index:
-                reorder_index[name2index[jointname]]=i
+                reorder_index[name2index[jointname]] = i
             else:
-                reorder_index[0]=2
+                reorder_index[0] = 2
         self.reorder_index = np.array(reorder_index).astype(int)
 
         # import mesh
@@ -52,7 +54,7 @@ class RaBitModel():
         self.parent = self.ktree_table
         # print(self._faces)
 
-        #INFO:
+        # INFO:
         # pose_shape: [23, 3]
         # beta_shape: [500]
         self.quads = self._faces.reshape(-1)
@@ -78,20 +80,19 @@ class RaBitModel():
         """
         mesh_list = []
 
-        #NOTE:
+        # NOTE:
         # self.mean_file: ./rabit_data/whole0310/mean.obj
         for f in self.mean_file:
             try:
                 fmesh = meshio.read(f)
                 mesh_list.append(fmesh)
             except Exception as e:
-                print(e,f)
+                print(e, f)
 
         points_list = [mesh.points for mesh in mesh_list]
-        cells_list = [mesh.cells for mesh in mesh_list] # faces
+        cells_list = [mesh.cells for mesh in mesh_list]  # faces
 
         return points_list[0], cells_list[0]
-
 
     def set_params(self, pose=None, beta=None, trans=None):
         """
@@ -124,26 +125,24 @@ class RaBitModel():
         self.update()
         return self.verts
 
-
     def update(self):
         """
         Called automatically when parameters are updated
         and numpy implementation.
 
         """
-        #INFO:
+        # INFO:
         # shapedirs: (500, 116178)
         # beta: (500,)
         # v_template: (38726, 3)
 
         # shape blend
-        v_shaped = self.shapedirs.T.dot(self.beta) + self.v_template.reshape(-1) 
-        
+        v_shaped = self.shapedirs.T.dot(self.beta) + self.v_template.reshape(-1)
 
         # rotation matrix for each joint
         # compared to smpl model, rabit needn't simulate the deform of muscle
-        pose_cube = np.zeros((24,1,3))
-        pose_cube[1:,:,:] += self.pose.reshape((-1, 1, 3))
+        pose_cube = np.zeros((24, 1, 3))
+        pose_cube[1:, :, :] += self.pose.reshape((-1, 1, 3))
         self.R = self.rodrigues(pose_cube)
         self.v_posed = v_shaped.reshape(-1, 3)
 
@@ -155,11 +154,11 @@ class RaBitModel():
 
         G[0] = self.with_zeros(np.hstack((self.R[0], self.J[0, :].reshape([3, 1]))))
         for i in range(1, self.ktree_table.shape[0]):
-            dJ = (self.J[i, :]-self.J[int(self.parent[i]),:]).reshape([3,1])
+            dJ = (self.J[i, :] - self.J[int(self.parent[i]), :]).reshape([3, 1])
             G[i] = G[int(self.parent[i])].dot(
                 self.with_zeros(
                     np.hstack(
-                        [self.R[i],dJ]
+                        [self.R[i], dJ]
                     )
                 )
             )
@@ -194,7 +193,7 @@ class RaBitModel():
         """
         theta = np.linalg.norm(r, axis=(1, 2), keepdims=True)
 
-        theta = np.maximum(theta, np.finfo(np.float64).tiny) # avoid zero divide
+        theta = np.maximum(theta, np.finfo(np.float64).tiny)  # avoid zero divide
         r_hat = r / theta
         cos = np.cos(theta)
         z_stick = np.zeros(theta.shape[0])
@@ -213,7 +212,6 @@ class RaBitModel():
         R = cos * i_cube + (1 - cos) * dot + np.sin(theta) * m
         return R
 
-
     def with_zeros(self, x):
         """
         Append a [0, 0, 0, 1] vector to a [3, 4] matrix.
@@ -228,7 +226,6 @@ class RaBitModel():
 
         """
         return np.vstack((x, np.array([[0.0, 0.0, 0.0, 1.0]])))
-
 
     def pack(self, x):
         """
@@ -246,7 +243,6 @@ class RaBitModel():
         """
         return np.dstack((np.zeros((x.shape[0], 4, 3)), x))
 
-
     def joints_list(self):
         """
         generate joints of rabit model based on the mid of maximum & minimun.
@@ -256,16 +252,15 @@ class RaBitModel():
         J = []
         for i in range(len(self.index2cluster)):
             key = self.index2cluster[i]
-            if key =='RootNode':
-                J.append(np.zeros((1,3)))
+            if key == 'RootNode':
+                J.append(np.zeros((1, 3)))
                 continue
-            index_val = self.v_posed[self.joint2index[key],:]
-            maxval = index_val.max(axis=0,keepdims=True)
-            minval = index_val.min(axis=0,keepdims=True)
-            J.append((maxval+minval)/2)
+            index_val = self.v_posed[self.joint2index[key], :]
+            maxval = index_val.max(axis=0, keepdims=True)
+            minval = index_val.min(axis=0, keepdims=True)
+            J.append((maxval + minval) / 2)
         J = np.concatenate(J)
         return J
-
 
     def save_to_obj(self, path):
         """
@@ -276,7 +271,7 @@ class RaBitModel():
         path: Path to save.
 
         """
-        mesh = om.PolyMesh(points=self.verts, face_vertex_indices=self.quads.reshape(-1,4))
+        mesh = om.PolyMesh(points=self.verts, face_vertex_indices=self.quads.reshape(-1, 4))
         om.write_mesh(path, mesh)
 
 
@@ -289,7 +284,7 @@ if __name__ == '__main__':
 
     # pose_shape: [23, 3]
     # beta_shape: [500]
-    # theta = np.random.rand(*(23, 3))*0.1
+    # theta = np.random.rand(*(23, 3)) * 0.1
     theta = np.zeros((23, 3))
     beta = np.random.rand(*(500,)) * 10 - 5
     beta[10:] = 0

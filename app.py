@@ -57,7 +57,6 @@ class MainWindow(QMainWindow):
             self.shapeSliders[i].valueChanged[int].connect(self.changevalue)
         self.ui.pushButton.clicked.connect(self.pushButton_Click)
 
-
     def loadScene(self):
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
         glEnable(GL_DEPTH_TEST)
@@ -75,11 +74,11 @@ class MainWindow(QMainWindow):
 
         glMatrixMode(GL_MODELVIEW)
         glLoadIdentity()
-        angle = 3.14/4 + self.position*3.14*2/17
+        angle = 3.14 / 4 + self.position * 3.14 * 2 / 17
 
         scale = 1
-        x0 = math.cos(angle)*scale
-        y0 = math.sin(angle)*scale
+        x0 = math.cos(angle) * scale
+        y0 = math.sin(angle) * scale
         z0 = 0
 
         x = x0
@@ -88,26 +87,25 @@ class MainWindow(QMainWindow):
 
         gluLookAt(x, y, z, 0, 0, 0, 0, 1, 0)
 
-
     def paintGL(self):
 
         self.loadScene()
 
         vertices = self.rabit.verts[self.rabit.quads, :].reshape(-1).tolist()
-        mesh = om.PolyMesh(points=self.rabit.verts, face_vertex_indices=self.rabit.quads.reshape(-1,4))
+        mesh = om.PolyMesh(points=self.rabit.verts, face_vertex_indices=self.rabit.quads.reshape(-1, 4))
         mesh.request_vertex_normals()
         mesh.update_vertex_normals()
         normals = mesh.vertex_normals()
         normals = normals[self.rabit.quads, :]
         normals = normals.reshape(-1)
 
-        vertex_data = (ctypes.c_float*len(vertices))(*(vertices))
+        vertex_data = (ctypes.c_float * len(vertices))(*(vertices))
         vertex_size = normal_size = len(vertices) * 4
         vertex_vbo = glGenBuffers(1)
         glBindBuffer(GL_ARRAY_BUFFER, vertex_vbo)
         glBufferData(GL_ARRAY_BUFFER, vertex_size, vertex_data, GL_STATIC_DRAW)
 
-        normal_data = (ctypes.c_float*len(normals))(*(normals)) 
+        normal_data = (ctypes.c_float * len(normals))(*(normals))
 
         normal_vbo = glGenBuffers(1)
         glBindBuffer(GL_ARRAY_BUFFER, normal_vbo)
@@ -125,7 +123,6 @@ class MainWindow(QMainWindow):
 
         # self.setupRC()
 
-
     def setupViewer(self):
         self.ui.openGLWidget.initializeGL()
         self.ui.openGLWidget.paintGL = self.paintGL
@@ -133,14 +130,13 @@ class MainWindow(QMainWindow):
         timer.timeout.connect(self.ui.openGLWidget.update)
         timer.start(5)
 
-
     def setupRC(self):
         # Light values and coordinates
-        ambientLight = [0.4, 0.4, 0.4, 1.0 ]
-        diffuseLight = [0.7, 0.7, 0.7, 1.0 ]
-        specular = [ 0.9, 0.9, 0.9, 1.0]
-        lightPos = [ -0.03, 0.15, 0.1, 1.0]
-        specref =  [ 0.6, 0.6, 0.6, 1.0]
+        ambientLight = [0.4, 0.4, 0.4, 1.0]
+        diffuseLight = [0.7, 0.7, 0.7, 1.0]
+        specular = [0.9, 0.9, 0.9, 1.0]
+        lightPos = [-0.03, 0.15, 0.1, 1.0]
+        specref = [0.6, 0.6, 0.6, 1.0]
 
         glEnable(GL_DEPTH_TEST)    # Hidden surface removal
         glEnable(GL_CULL_FACE)    # Do not calculate inside of solid object
@@ -165,9 +161,8 @@ class MainWindow(QMainWindow):
         glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE)
 
         # All materials hereafter have full specular reflectivity with a moderate shine
-        glMaterialfv(GL_FRONT, GL_SPECULAR,specref)
-        glMateriali(GL_FRONT,GL_SHININESS,64)
-
+        glMaterialfv(GL_FRONT, GL_SPECULAR, specref)
+        glMateriali(GL_FRONT, GL_SHININESS, 64)
 
     def changevalue(self):
         pose_vals = []
@@ -186,14 +181,13 @@ class MainWindow(QMainWindow):
 
         shapeval_list = []
         for i in range(10):
-            max1,min1 = self.maxmin[0][i],self.maxmin[1][i]
-            d = (max1-min1)/11
-            avg = (max1+min1)/2
-            shapeval_list.append(shape_vals[i]*d+avg)
+            max1, min1 = self.maxmin[0][i], self.maxmin[1][i]
+            d = (max1 - min1) / 11
+            avg = (max1 + min1) / 2
+            shapeval_list.append(shape_vals[i] * d + avg)
 
-
-        if self.pca_dim>10:
-            shape_vals = np.append(shape_vals,[0]*(self.pca_dim-10))
+        if self.pca_dim > 10:
+            shape_vals = np.append(shape_vals, [0] * (self.pca_dim - 10))
         trans_vals = np.zeros(3)
         self.rabit.set_params(pose=pose_vals, beta=shape_vals, trans=trans_vals)
 
@@ -201,9 +195,9 @@ class MainWindow(QMainWindow):
     def pushButton_Click(self):
         print("not support for now")
         output_path = self.ui.lineEdit.text()
-        new_mesh = om.PolyMesh(points=self.rabit.verts, face_vertex_indices=self.rabit.quads.reshape(-1,4))
-        om.write_mesh(output_path,new_mesh)
-        print ('Saved to %s' % output_path)
+        new_mesh = om.PolyMesh(points=self.rabit.verts, face_vertex_indices=self.rabit.quads.reshape(-1, 4))
+        om.write_mesh(output_path, new_mesh)
+        print('Saved to %s' % output_path)
 
 
 if __name__ == "__main__":

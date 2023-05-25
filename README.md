@@ -49,6 +49,7 @@ Assisting people in efficiently producing visually plausible 3D characters has a
   │   ├── eyes
   │   │   ├── eye_params.npy
   │   │   ├── one_eye.obj
+  │   │   ├── orbit_annotation.ply
   │   │   └── template_eyes.obj
   │   ├── shape
   │   │   ├── clusterdic.npy
