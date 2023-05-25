@@ -14,7 +14,7 @@ class Surface():
         u,s,v = np.linalg.svd(points)
         a,b,c = v[-1]
         d = -np.sum(v[-1]*mean)
-        # ax+by+cz+d=0
+        # ax + by + cz + d = 0
         self.a = a
         self.b = b
         self.c = c
@@ -139,8 +139,8 @@ class Eye_reconstructor():
         eye2[:,0] = -eye2[:,0]
         eyes = np.concatenate([eye1,eye2],axis=0)
         #reconstruct
-        newmesh = om.PolyMesh(points=eyes,face_vertex_indices=self.eyeface)
-        return newmesh
+        new_mesh = om.PolyMesh(points=eyes,face_vertex_indices=self.eyeface)
+        return new_mesh
 
 
 if __name__=='__main__':

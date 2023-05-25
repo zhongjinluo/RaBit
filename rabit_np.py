@@ -289,7 +289,7 @@ if __name__ == '__main__':
 
     # pose_shape: [23, 3]
     # beta_shape: [500]
-    # theta = np.random.rand(*(23, 3))*0.1
+    # theta = np.random.rand(*(23, 3)) * 0.1
     theta = np.zeros((23, 3))
     beta = np.random.rand(*(500,)) * 10 - 5
     beta[10:] = 0

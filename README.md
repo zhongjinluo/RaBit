@@ -37,6 +37,8 @@ Assisting people in efficiently producing visually plausible 3D characters has a
 
 - To use *RaBit*'s texture model, you also need to meet the requirements of [StyleGAN3](https://github.com/NVlabs/stylegan3).
 
+- This code has been tested with Python 3.8 on Ubuntu 18.04.
+
 ## **Usage of *RaBit***
 
 *RaBit is* a 3D full-body parametric model for biped character modeling, which contains a linear blend (SMPL-like) model for shapes and a neural (StyleGAN-based) generator for UV textures. It simultaneously parameterizes the shape, pose, and texture of 3D biped characters into low-dimensional vectors.
