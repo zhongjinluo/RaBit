@@ -37,6 +37,66 @@ Assisting people in efficiently producing visually plausible 3D characters has a
 
 - To use *RaBit*'s texture model, you also need to meet the requirements of [StyleGAN3](https://github.com/NVlabs/stylegan3).
 
+## **RaBit**
+
+The 3D full-body parametric model for biped character modeling, which contains a linear blend (SMPL-like) model for shapes and a neural (StyleGAN-based) generator for UV textures. It simultaneously parameterizes the shape, pose, and texture of 3D biped characters into low-dimensional vectors.
+
+- Downloading required models and extra data from [OneDrive](https://cuhko365-my.sharepoint.com/personal/221019019_link_cuhk_edu_cn/_layouts/15/onedrive.aspx?id=%2Fpersonal%2F221019019%5Flink%5Fcuhk%5Fedu%5Fcn%2FDocuments%2FRabit%5Fweight&ga=1). After unzipping the above file, the directory structure of `./rabit_data` is expected as follows,
+
+  ```
+  ├── assets
+  ├── rabit_data
+  │   ├── eyes
+  │   │   ├── eye_params.npy
+  │   │   ├── one_eye.obj
+  │   │   └── template_eyes.obj
+  │   ├── shape
+  │   │   ├── clusterdic.npy
+  │   │   ├── joint2index.npy
+  │   │   ├── ktree_table.npy
+  │   │   ├── maxmin.npy
+  │   │   ├── mean.obj
+  │   │   ├── pcamat.npy
+  │   │   ├── pose_order.npy
+  │   │   ├── toe_tumb_nose_ear.npy
+  │   │   └── weightMatrix.npy
+  │   ├── texture # trained texture generator
+  │   │   └── texture.pkl
+  │   └── UV
+  │       ├── m_t.mtl
+  │       ├── quad.obj # quadmesh
+  │       └── tri.obj # trimesh
+  ├── ...
+  ```
+
+   `shape/` contains files for the shape blend model, `texture/` for the texture generator, `eyes/` for eye computation, and `UV/` for UV mapping.
+
+- We provide a numpy implementation of *RaBit*. For generating a random mesh without texture:
+
+  ```
+  python rabit_np.py
+  ```
+
+  The generated mesh would be saved to the `output/m.obj`.
+
+- For generating a random mesh with texture:
+
+  ```
+  python rabit_np_with_texture.py
+  ```
+
+  The generated mesh would be saved to the `output/m_t.*`.
+
+- You can also refer to the provided files [rabit_demo.ipynb](https://github.com/zhongjinluo/RaBit/blob/master/rabit_demo.ipynb) and [rabit_demo_with_texture.ipynb](https://github.com/zhongjinluo/RaBit/blob/master/rabit_demo_with_texture.ipynb) for instructions on generating a random mesh without and with texture, respectively.
+
+- We also provide a GUI viewer that allows intuitive manipulation of the first ten shape axes of *RaBit*:
+
+  ```
+  python app.py 
+  ```
+
+![gallery](./assets/viewer.jpg)
+
 ## Citation
 
 ```
@@ -47,3 +107,12 @@ Assisting people in efficiently producing visually plausible 3D characters has a
   year={2023}
 }
 ```
+
+## Acknowledgements
+
+The code benefits from or utilizes the following projects. Many thanks to their contributions.
+
+- [SMPL](https://smpl.is.tue.mpg.de/)
+- [CalciferZh/SMPL](CalciferZh/SMPL)
+- [Humberto1015/smpl-viewer](https://github.com/Humberto1015/smpl-viewer)
+- [thmoa/smpl_viewer](https://github.com/thmoa/smpl_viewer)
