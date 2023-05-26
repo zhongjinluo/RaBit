@@ -159,7 +159,7 @@ class RabitModel_eye(nn.Module):
         self.joint2index = np.load(self.dataroot + 'joint2index.npy', allow_pickle=True).item()
         ktree_table = np.load(self.dataroot + 'ktree_table.npy', allow_pickle=True).item()
         joint_order = np.load("./rabit_data/shape/pose_order.npy")
-        self.weightMatrix = np.load(self.dataroot + 'weightMatrix.npy', allow_pickle=True)
+        self.weightMatrix = np.load(self.dataroot + 'weight_matrix.npy', allow_pickle=True)
         mesh = om.read_polymesh(self.mean_file[0])
         self.points = mesh.points()
         self.cells = mesh.face_vertex_indices()

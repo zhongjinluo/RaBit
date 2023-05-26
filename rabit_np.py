@@ -25,7 +25,7 @@ class RaBitModel():
 
         self.joint2index = np.load(dataroot + "shape/joint2index.npy", allow_pickle=True).item()
         joint_order = np.load(dataroot + "shape/pose_order.npy")
-        self.weightMatrix = np.load(dataroot + "shape/weightMatrix.npy", allow_pickle=True)
+        self.weightMatrix = np.load(dataroot + "shape/weight_matrix.npy", allow_pickle=True)
 
         # reorder joint
         self.ktree_table = np.ones(24) * -1

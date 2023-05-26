@@ -41,7 +41,7 @@ Assisting people in efficiently producing visually plausible 3D characters has a
 
 *RaBit is* a 3D full-body parametric model for biped character modeling, which contains a linear blend (SMPL-like) model for shapes and a neural (StyleGAN-based) generator for UV textures. It simultaneously parameterizes the shape, pose, and texture of 3D biped characters into low-dimensional vectors.
 
-- Downloading required models and extra data from [Google Drive](https://drive.google.com/file/d/1qnd6tMi7LYVqhULIq1DKLWRzZNzHxUkJ/view?usp=sharing) or [OneDrive](https://cuhko365-my.sharepoint.com/:u:/g/personal/220019015_link_cuhk_edu_cn/EfK1lFQAEN1Dsn6VHUxj2acBoROTqsnGQO1_wjNyDaAW9g?e=SwpVLQ). After unzipping the above file, the directory structure of `./rabit_data` is expected as follows,
+- Downloading required models and extra data from [Google Drive](https://drive.google.com/file/d/1yvweTYPKtmuMt5Eu7CHZ4-Do4CRYLFtp/view?usp=sharing) or [OneDrive](https://cuhko365-my.sharepoint.com/:u:/g/personal/220019015_link_cuhk_edu_cn/EfrbrGVpsUlDuE4zZDfsJlIB-QzgUDb9GZO9MInG0ecWkQ?e=kC79nL). After unzipping the above file, the directory structure of `./rabit_data` is expected as follows,
 
   ```
   ├── assets
@@ -60,7 +60,7 @@ Assisting people in efficiently producing visually plausible 3D characters has a
   │   │   ├── pcamat.npy
   │   │   ├── pose_order.npy
   │   │   ├── toe_tumb_nose_ear.npy
-  │   │   └── weightMatrix.npy
+  │   │   └── weight_matrix.npy
   │   ├── texture # trained texture generator
   │   │   └── texture.pkl
   │   └── UV
