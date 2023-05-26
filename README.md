@@ -61,8 +61,8 @@ Assisting people in efficiently producing visually plausible 3D characters has a
   │   │   ├── pose_order.npy
   │   │   ├── toe_tumb_nose_ear.npy
   │   │   └── weight_matrix.npy
-  │   ├── texture # trained texture generator
-  │   │   └── texture.pkl
+  │   ├── texture
+  │   │   └── texture.pkl # trained texture generator
   │   └── UV
   │       ├── m_t.mtl
   │       ├── quad.obj # quadmesh
