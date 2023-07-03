@@ -4,16 +4,9 @@ This repository includes the related code of *RaBit*.
 
 > ***RaBit***: Parametric Modeling of 3D Biped Cartoon Characters with a Topological-consistent Dataset
 >
-> Zhongjin Luo*, Shengcai Cai*, Jinguo Dong, Ruibo Ming, Liangdong Qiu, [Xiaohang Zhang](https://xiaohangzhan.github.io/) and [Xiaoguang Han](https://gaplab.cuhk.edu.cn/)
+> [Zhongjin Luo](https://zhongjinluo.github.io/)*, Shengcai Cai*, Jinguo Dong, Ruibo Ming, Liangdong Qiu, [Xiaohang Zhang](https://xiaohangzhan.github.io/) and [Xiaoguang Han](https://gaplab.cuhk.edu.cn/)
 
 #### | [Paper](https://arxiv.org/abs/2303.12564) | [Project](https://gaplab.cuhk.edu.cn/projects/RaBit/) | [Dataset](https://gaplab.cuhk.edu.cn/projects/RaBit/dataset.html) |
-
-## TODO:triangular_flag_on_post:
-
-- [ ] Datasets
-- [ ] Shape Model
-- [ ] Texture Model
-- [ ] Usage Guidance / Demo
 
 ## Introduction
 
@@ -99,6 +92,8 @@ Assisting people in efficiently producing visually plausible 3D characters has a
   ```
   
   ![gallery](./assets/viewer.png)
+  
+- If you are interested in sketch-based 3D modeling, please refer to [*Sketch2RaBit*](https://github.com/zhongjinluo/Sketch2RaBit).
 
 ## Citation
 
