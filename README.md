@@ -1,17 +1,12 @@
 # *RaBit*
 
+This repository includes the related code of *RaBit*.
+
 > ***RaBit***: Parametric Modeling of 3D Biped Cartoon Characters with a Topological-consistent Dataset
 >
-> Zhongjin Luo*, Shengcai Cai*, Jinguo Dong, Ruibo Ming, Liangdong Qiu, [Xiaohang Zhang](https://xiaohangzhan.github.io/) and [Xiaoguang Han](https://gaplab.cuhk.edu.cn/)
+> [Zhongjin Luo](https://zhongjinluo.github.io/)*, Shengcai Cai*, Jinguo Dong, Ruibo Ming, Liangdong Qiu, [Xiaohang Zhang](https://xiaohangzhan.github.io/) and [Xiaoguang Han](https://gaplab.cuhk.edu.cn/)
 
 #### | [Paper](https://arxiv.org/abs/2303.12564) | [Project](https://gaplab.cuhk.edu.cn/projects/RaBit/) | [Dataset](https://gaplab.cuhk.edu.cn/projects/RaBit/dataset.html) |
-
-## TODO:triangular_flag_on_post:
-
-- [ ] Datasets
-- [ ] Shape Model
-- [ ] Texture Model
-- [ ] Usage Guidance / Demo
 
 ## Introduction
 
@@ -41,7 +36,7 @@ Assisting people in efficiently producing visually plausible 3D characters has a
 
 *RaBit is* a 3D full-body parametric model for biped character modeling, which contains a linear blend (SMPL-like) model for shapes and a neural (StyleGAN-based) generator for UV textures. It simultaneously parameterizes the shape, pose, and texture of 3D biped characters into low-dimensional vectors.
 
-- Downloading required models and extra data from [OneDrive](https://cuhko365-my.sharepoint.com/:u:/g/personal/220019015_link_cuhk_edu_cn/EeW1g5MQNYZGiODBK1sBPDYBDDmXRNTXNyhy6cspVOnvyw?e=uPlS2H). After unzipping the above file, the directory structure of `./rabit_data` is expected as follows,
+- Downloading required models and extra data from [Google Drive](https://drive.google.com/file/d/1yvweTYPKtmuMt5Eu7CHZ4-Do4CRYLFtp/view?usp=sharing) or [OneDrive](https://cuhko365-my.sharepoint.com/:u:/g/personal/220019015_link_cuhk_edu_cn/EfrbrGVpsUlDuE4zZDfsJlIB-QzgUDb9GZO9MInG0ecWkQ?e=kC79nL). After unzipping the above file, the directory structure of `./rabit_data` is expected as follows,
 
   ```
   ├── assets
@@ -49,6 +44,7 @@ Assisting people in efficiently producing visually plausible 3D characters has a
   │   ├── eyes
   │   │   ├── eye_params.npy
   │   │   ├── one_eye.obj
+  │   │   ├── orbit_annotation.ply
   │   │   └── template_eyes.obj
   │   ├── shape
   │   │   ├── clusterdic.npy
@@ -59,9 +55,9 @@ Assisting people in efficiently producing visually plausible 3D characters has a
   │   │   ├── pcamat.npy
   │   │   ├── pose_order.npy
   │   │   ├── toe_tumb_nose_ear.npy
-  │   │   └── weightMatrix.npy
-  │   ├── texture # trained texture generator
-  │   │   └── texture.pkl
+  │   │   └── weight_matrix.npy
+  │   ├── texture
+  │   │   └── texture.pkl # trained texture generator
   │   └── UV
   │       ├── m_t.mtl
   │       ├── quad.obj # quadmesh
@@ -96,6 +92,8 @@ Assisting people in efficiently producing visually plausible 3D characters has a
   ```
   
   ![gallery](./assets/viewer.png)
+  
+- If you are interested in sketch-based 3D modeling, please refer to [*Sketch2RaBit*](https://github.com/zhongjinluo/Sketch2RaBit).
 
 ## Citation
 

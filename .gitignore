@@ -1,5 +1,4 @@
-/rabit_data
-
-/temp
-
-/__pycache__
+rabit_data/
+output/
+__pycache__/
+stylegan3/__pycache__/

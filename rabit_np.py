@@ -159,7 +159,7 @@ class RaBitModel():
         
         self.update()
         return self.verts
-
+      
     def update(self):
         """
         Called automatically when parameters are updated
