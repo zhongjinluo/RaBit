@@ -327,8 +327,7 @@ if __name__ == '__main__':
     rabit.set_params_UI(beta=beta, pose=theta, trans=trans)
     
     # You can load some pose.npy from dataset here
-    # theta_dataset = np.load("../pose.npy") 
-    theta = np.zeros((24, 3))
+    theta_dataset = np.zeros((24, 3)) # theta_dataset = np.load("../pose.npy") 
     rabit.set_params(beta=beta, pose=theta_dataset, trans=trans)
     rabit.save_to_obj(save_path)
     print("Mesh:", save_path)

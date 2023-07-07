@@ -262,12 +262,14 @@ if __name__ == '__main__':
 
     rabit = RabitModel_eye(beta_norm=True, theta_norm=True)
 
+    # random
     beta = torch.ones((1, 100)).to(device)*0.5
     theta = torch.ones((1, 72)).to(device)*0.5
     trans = torch.zeros((1, 3)).to(device)
     
-    temp = np.load("../pose.npy")
-    theta = torch.from_numpy(temp)
+    # You can also load some pose.npy from dataset here
+    temp = np.zeros((24, 3)) # temp = np.load("../pose.npy")
+    theta = torch.from_numpy(temp).to(device)
     theta = theta.reshape(1,72).float()
     rabit = RabitModel_eye(beta_norm=True, theta_norm=False)
 
