@@ -189,7 +189,7 @@ class MainWindow(QMainWindow):
         if self.pca_dim > 10:
             shape_vals = np.append(shape_vals, [0] * (self.pca_dim - 10))
         trans_vals = np.zeros(3)
-        self.rabit.set_params(pose=pose_vals, beta=shape_vals, trans=trans_vals)
+        self.rabit.set_params_UI(pose=pose_vals, beta=shape_vals, trans=trans_vals)
 
     # save the model
     def pushButton_Click(self):

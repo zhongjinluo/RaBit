@@ -93,7 +93,7 @@ class RaBitModel():
 
         return points_list[0], cells_list[0]
 
-    def set_params(self, pose=None, beta=None, trans=None):
+    def set_params_UI(self, pose=None, beta=None, trans=None):
         """
         Set pose, shape, and/or translation parameters of RaBit model.
         Verices of the model will be updated and returned.
@@ -121,6 +121,40 @@ class RaBitModel():
         if trans is not None:
             self.trans = trans
 
+        self.update()
+        return self.verts
+
+    def set_params(self, pose=None, beta=None, trans=None):
+        """
+        Set pose, shape, and/or translation parameters of RaBit model.
+        Verices of the model will be updated and returned.
+        This version is used for user to apply smpl-like parameter, and additional pose 
+        order is applied to keep it consistent as torch of rabit version
+
+        Parameters:
+        ---------
+        pose: Also known as 'theta', a [23, 3] matrix indicating child joint rotation
+        relative to parent joint. For root joint it's global orientation.
+        Represented in a axis-angle format.
+
+        beta: Parameter for model shape. A vector of shape [500]. Coefficients for
+        PCA component. Only 500 components were released by GAP LAB.
+
+        trans: Global translation of shape [3].
+
+        Return:
+        ------
+        Updated vertices.
+
+        """
+        if pose is not None:
+            pose = pose[self.reorder_index, :]
+            self.pose = pose[1:,:]
+        if beta is not None:
+            self.beta = beta
+        if trans is not None:
+            self.trans = trans
+        
         self.update()
         return self.verts
 
@@ -340,7 +374,7 @@ if __name__ == '__main__':
     # pose_shape: [23, 3]
     # beta_shape: [500]
     # theta = np.random.rand(*(23, 3))*0.1
-    theta = np.zeros((23, 3))
+    theta = np.zeros((24, 3))
     beta = np.random.rand(*(500,)) * 10 - 5
     beta[10:] = 0
     trans = np.zeros(rabit.trans_shape)

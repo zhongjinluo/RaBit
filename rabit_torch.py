@@ -26,7 +26,7 @@ class RabitModel_eye(nn.Module):
         self.beta_norm = beta_norm
         self.theta_norm = theta_norm
         self.eye_recon = Eye_reconstructor()
-        self.prepare_whole()
+        self.prepare()
 
         self.additional_7kp_index = np.load('./rabit_data/shape/toe_tumb_nose_ear.npy', allow_pickle=True)
 
@@ -145,7 +145,7 @@ class RabitModel_eye(nn.Module):
         skeleton = torch.stack(skeleton, dim=1)
         return posed_vertices, skeleton, eyes_list
 
-    def prepare_whole(self):
+    def prepare(self):
         self.dataroot = "./rabit_data/shape/"
         self.mean_file = [self.dataroot + "mean.obj"]
         self.pca_weight = np.load(self.dataroot + "pcamat.npy", allow_pickle=True)[:100, :]
@@ -265,6 +265,11 @@ if __name__ == '__main__':
     beta = torch.ones((1, 100)).to(device)*0.5
     theta = torch.ones((1, 72)).to(device)*0.5
     trans = torch.zeros((1, 3)).to(device)
+    
+    temp = np.load("../pose.npy")
+    theta = torch.from_numpy(temp)
+    theta = theta.reshape(1,72).float()
+    rabit = RabitModel_eye(beta_norm=True, theta_norm=False)
 
     body_mesh_points, kps, eyes = rabit(beta, theta, trans)
     body_mesh_points = body_mesh_points.detach().cpu().numpy().reshape(-1, 3)
